@@ -15,6 +15,19 @@
     data ends
 
     code segment para 'code'
+
+        clear_screen macro
+
+            mov ah, 00h ; set configuration to video mode
+            mov al, 13h ; coose the video mode
+            int 10h ; execute configuration
+
+            mov ah, 0Bh ; set configuration to
+            mov bh, 00h ; background color
+            mov bl, 00h ; set background color to black
+            int 10h ; execute configuration
+        
+        endm
     
         main proc far
             
@@ -27,11 +40,7 @@
             pop ax ; release top item of stack to ax register
             pop ax ; release top item of stack to ax register
 
-            mov ah, 00h ; set configuration to video mode
-            mov al, 13h ; coose the video mode
-            int 10h ; execute configuration
-
-            call clear_screen
+            clear_screen
 
             check_time:
                 mov ah, 2Ch ; get system time
@@ -48,7 +57,7 @@
                 mov ax, ball_velocity_y
                 add ball_y, ax
 
-                call clear_screen
+                clear_screen
                 
                 jmp check_time ; after all the actions restart the game loop
 
@@ -84,19 +93,6 @@
             ret
 
         draw_ball endp
-
-        clear_screen proc near
-
-            
-
-            mov ah, 0Bh ; set configuration to
-            mov bh, 00h ; background color
-            mov bl, 00h ; set background color to black
-            int 10h ; execute configuration
-
-            ret
-        
-        clear_screen endp
     
     code ends
     ;code ends
